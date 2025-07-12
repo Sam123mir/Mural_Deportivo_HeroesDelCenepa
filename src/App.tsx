@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import API_URL from './config';
 import Header from './components/Header';
 import PhotoGallery from './components/PhotoGallery';
 import FilterBar from './components/FilterBar';
@@ -7,15 +8,13 @@ import AdminPanel from './components/AdminPanel';
 import Footer from './components/Footer';
 import PhotoModal from './components/PhotoModal';
 import { Post, AuthState, FilterState } from './types';
-import { useLocalStorage } from './hooks/useLocalStorage';
-
 const ADMIN_PASSWORD = 'I.EHeroesDelCenepa2025_Futbol';
 
 function App() {
-  const [posts, setPosts] = useLocalStorage<Post[]>('sports_mural_posts', []);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
-    isAdmin: false
+    isAdmin: false,
   });
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
@@ -26,6 +25,24 @@ function App() {
     contentType: 'all'
   });
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/posts`);
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+        } else {
+          console.error('Error al obtener las publicaciones');
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleAdminLogin = (password: string): boolean => {
     if (password === ADMIN_PASSWORD) {
@@ -40,18 +57,24 @@ function App() {
     setAuthState({ isAuthenticated: false, isAdmin: false });
   };
 
-  const handleAddPost = (newPostData: Omit<Post, 'id' | 'createdAt'>) => {
-    const newPost: Post = {
-      ...newPostData,
-      id: Date.now().toString(),
-      createdAt: new Date()
-    };
-    
-    setPosts(prevPosts => [newPost, ...prevPosts]);
+  const handleAddPost = (newPost: Post) => {
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
   };
 
-  const handleDeletePost = (id: string) => {
-    setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
+  const handleDeletePost = async (id: string) => {
+    try {
+      const response = await fetch(`${API_URL}/api/posts/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+      } else {
+        console.error('Error al eliminar la publicación');
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
   };
 
   // Filter posts based on current filters

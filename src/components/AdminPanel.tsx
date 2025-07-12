@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import API_URL from '../config';
 import { Post } from '../types';
 import { Save, Trash2, LogOut, Plus } from 'lucide-react';
 
 interface AdminPanelProps {
   posts: Post[];
-  onAddPost: (post: Omit<Post, 'id' | 'createdAt'>) => void;
+  onAddPost: (post: Post) => void;
   onDeletePost: (id: string) => void;
   onLogout: () => void;
 }
@@ -30,35 +31,45 @@ export default function AdminPanel({ posts, onAddPost, onDeletePost, onLogout }:
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (imageFile && newPost.description) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageUrl = event.target?.result as string;
-        const postData = { ...newPost, imageUrl };
-        
-        // Remove subcategory if not applicable
-        if (newPost.sport !== 'futsal' || newPost.category !== 'C') {
-          postData.subcategory = undefined;
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      Object.entries(newPost).forEach(([key, value]) => {
+        if (value !== undefined) {
+          formData.append(key, value);
         }
-        
-        onAddPost(postData);
-        setNewPost({
-          description: '',
-          date: new Date().toISOString().split('T')[0],
-          sport: 'futbol',
-          gender: 'masculino',
-          category: 'C',
-          subcategory: undefined,
-          contentType: 'entrenamiento',
-          rival: '',
-          result: ''
+      });
+
+      try {
+        const response = await fetch(`${API_URL}/api/posts`, {
+          method: 'POST',
+          body: formData,
         });
-        setImageFile(null);
-        setShowAddForm(false);
-      };
-      reader.readAsDataURL(imageFile);
+
+        if (response.ok) {
+          const createdPost = await response.json();
+          onAddPost(createdPost);
+          setNewPost({
+            description: '',
+            date: new Date().toISOString().split('T')[0],
+            sport: 'futbol',
+            gender: 'masculino',
+            category: 'C',
+            subcategory: undefined,
+            contentType: 'entrenamiento',
+            rival: '',
+            result: '',
+          });
+          setImageFile(null);
+          setShowAddForm(false);
+        } else {
+          console.error('Error al crear la publicación');
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      }
     }
   };
 
@@ -290,7 +301,7 @@ export default function AdminPanel({ posts, onAddPost, onDeletePost, onLogout }:
                 {posts.map((post) => (
                   <div key={post.id} className="border border-gray-200 rounded-lg p-4">
                     <img
-                      src={post.imageUrl}
+                      src={`${API_URL}${post.imageUrl}`}
                       alt={post.description}
                       className="w-full h-32 object-cover rounded-lg mb-3"
                       onError={(e) => {

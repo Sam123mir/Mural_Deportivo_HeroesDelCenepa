@@ -1,4 +1,5 @@
 import React from 'react';
+import API_URL from '../config';
 import { Post } from '../types';
 import { X, Calendar, Target, Trophy, Users, BookOpen, GraduationCap } from 'lucide-react';
 
@@ -49,7 +50,7 @@ export default function PhotoModal({ post, onClose }: PhotoModalProps) {
       >
         <div className="w-full md:w-3/5 h-64 md:h-auto bg-gray-100">
           <img 
-            src={post.imageUrl} 
+            src={`${API_URL}${post.imageUrl}`}
             alt={post.description} 
             className="w-full h-full object-cover" 
           />

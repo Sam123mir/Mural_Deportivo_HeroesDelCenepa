@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API_URL from '../config';
 import { Calendar, Target, Trophy, Users, BookOpen, GraduationCap } from 'lucide-react';
 import { Post } from '../types';
 
@@ -59,7 +60,7 @@ export default function PhotoCard({ post, onClick }: PhotoCardProps) {
       <div className="relative bg-gray-100 aspect-square">
         {!imageError ? (
           <img
-            src={post.imageUrl}
+            src={`${API_URL}${post.imageUrl}`}
             alt={post.description}
             className={`w-full h-full object-cover transition-opacity duration-300 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
