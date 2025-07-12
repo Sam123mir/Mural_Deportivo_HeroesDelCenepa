@@ -31,7 +31,7 @@ export default function AdminLogin({ onLogin, onClose }: AdminLoginProps) {
             Acceso Administrativo
           </h2>
           <p className="text-gray-600 text-sm mt-2">
-            Ingresa la contraseña para gestionar el mural
+            Ingresa la contraseña para gestionar el mural deportivo
           </p>
         </div>
 

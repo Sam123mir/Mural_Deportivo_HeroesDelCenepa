@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Users, Calendar } from 'lucide-react';
+import { Trophy, Users, Calendar, Shield } from 'lucide-react';
 
 interface HeaderProps {
   onAdminClick: () => void;
@@ -12,11 +12,11 @@ export default function Header({ onAdminClick }: HeaderProps) {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="bg-white rounded-full p-3">
-              <Trophy className="h-8 w-8 text-green-600" />
+              <Shield className="h-8 w-8 text-green-600" />
             </div>
             <div className="text-center md:text-left">
               <h1 className="text-2xl md:text-3xl font-bold">
-                Mural Digital Sub 17
+                Mural Deportivo Digital
               </h1>
               <p className="text-green-100 text-sm md:text-base">
                 I.E. Héroes del Cenepa - Barrio La Merced, Juanjuí
@@ -26,8 +26,12 @@ export default function Header({ onAdminClick }: HeaderProps) {
           
           <div className="flex items-center gap-6 text-center md:text-right">
             <div className="flex items-center gap-2">
+              <Trophy className="h-5 w-5" />
+              <span className="text-sm">Fútbol & Futsal</span>
+            </div>
+            <div className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              <span className="text-sm">Sub 17</span>
+              <span className="text-sm">Todas las Categorías</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5" />

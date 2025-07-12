@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, MapPin } from 'lucide-react';
+import { Heart, MapPin, Trophy, Users } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -16,18 +16,29 @@ export default function Footer() {
           </h3>
           
           <p className="text-gray-400 text-sm mb-4">
-            Forjando campeones dentro y fuera del campo de fútbol
+            Forjando campeones dentro y fuera del campo deportivo
           </p>
+
+          <div className="flex items-center justify-center gap-6 mb-4 text-sm">
+            <div className="flex items-center gap-2">
+              <Trophy className="h-4 w-4 text-yellow-400" />
+              <span>Fútbol & Futsal</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Users className="h-4 w-4 text-blue-400" />
+              <span>Todas las Categorías</span>
+            </div>
+          </div>
           
           <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
             <span>Hecho con</span>
             <Heart className="h-4 w-4 text-red-400 fill-current" />
-            <span>para nuestro equipo Sub 17</span>
+            <span>para toda nuestra comunidad deportiva</span>
           </div>
           
           <div className="mt-4 pt-4 border-t border-gray-700">
             <p className="text-xs text-gray-500">
-              © 2025 Mural Digital Sub 17 - I.E. Héroes del Cenepa
+              © 2025 Mural Deportivo Digital - I.E. Héroes del Cenepa
             </p>
           </div>
         </div>

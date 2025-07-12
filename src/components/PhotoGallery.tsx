@@ -4,9 +4,10 @@ import PhotoCard from './PhotoCard';
 
 interface PhotoGalleryProps {
   posts: Post[];
+  onPhotoClick: (post: Post) => void;
 }
 
-export default function PhotoGallery({ posts }: PhotoGalleryProps) {
+export default function PhotoGallery({ posts, onPhotoClick }: PhotoGalleryProps) {
   if (posts.length === 0) {
     return (
       <div className="text-center py-16">
@@ -19,7 +20,7 @@ export default function PhotoGallery({ posts }: PhotoGalleryProps) {
           ¡Próximamente nuestras primeras fotos!
         </h3>
         <p className="text-gray-500">
-          El equipo Sub 17 estará subiendo fotos de entrenamientos y partidos muy pronto.
+          Los equipos deportivos del colegio estarán subiendo contenido muy pronto.
         </p>
       </div>
     );
@@ -28,7 +29,7 @@ export default function PhotoGallery({ posts }: PhotoGalleryProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {posts.map((post) => (
-        <PhotoCard key={post.id} post={post} />
+        <PhotoCard key={post.id} post={post} onClick={() => onPhotoClick(post)} />
       ))}
     </div>
   );
