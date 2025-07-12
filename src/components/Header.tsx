@@ -1,5 +1,6 @@
 import React from 'react';
-import { Trophy, Users, Calendar, Shield } from 'lucide-react';
+import { Trophy, Users, Calendar } from 'lucide-react';
+import logo from '../image/logo.png';
 
 interface HeaderProps {
   onAdminClick: () => void;
@@ -11,9 +12,7 @@ export default function Header({ onAdminClick }: HeaderProps) {
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="bg-white rounded-full p-3">
-              <Shield className="h-8 w-8 text-green-600" />
-            </div>
+            <img src={logo} alt="Logo I.E. Héroes del Cenepa" className="h-16 w-16" />
             <div className="text-center md:text-left">
               <h1 className="text-2xl md:text-3xl font-bold">
                 Mural Deportivo Digital
